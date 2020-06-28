@@ -16,7 +16,7 @@ python passwordGenerator
 
 ## Watch Video
 
-[![Tutorial](https://img.youtube.com/vi/wTON4XIEpcc/maxresdefault.jpg "Watch Video")](https://youtu.be/wTON4XIEpcc "Watch Video")
+[![Python Password Generator in JUST 10 LINES of CODE](https://img.youtube.com/vi/wTON4XIEpcc/maxresdefault.jpg "Watch Video")](https://youtu.be/wTON4XIEpcc "Watch Video")
 
 #### Specify the length of the password using the `l` or `--length` argument.
 
