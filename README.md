@@ -20,7 +20,7 @@ python passwordGenerator
 
 #### Hosted.
 
-[CHeck Demo]()
+[Check Demo](http://pgenerateflask.herokuapp.com/)
 
 #### You can also import and use this function in your project.
 
