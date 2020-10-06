@@ -18,11 +18,9 @@
 python passwordGenerator
 ```
 
-#### Specify the length of the password using the `l` or `--length` argument.
+#### Hosted.
 
-```bash
-python passwordGenerator -l 20
-```
+[CHeck Demo]()
 
 #### You can also import and use this function in your project.
 

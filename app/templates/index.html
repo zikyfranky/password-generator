@@ -1,0 +1,181 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Password Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+    <header>
+
+        <nav class="navbar navbar-light bg-dark d-flex justify-content-center">
+            <a class="navbar-brand" href="#">
+                <img src="https://getbootstrap.com/docs/4.0/assets/brand/bootstrap-solid.svg" width="70" height="70"
+                    class="d-inline-block align-top" alt="">
+                <span style="color: white; font-size:50px;">
+                    <b>
+                        Python Password Generator
+                    </b>
+                </span>
+            </a>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <div class="card text-center">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Password generator tool</h5>
+                    <p class="card-text"><b> Generate a secure password</b></p>
+                    <p class="card-text">Use our online password generator to instantly create a secure, random password
+                    </p>
+                </div>
+                <div class="card-footer text-muted">
+                </div>
+            </div>
+        </section>
+        <section class="mt-3">
+            <div class="container input-group mb-3 d-flex justify-content-center">
+                <input type="text" id="generatedText" class="w-50 h-70 d-flex justify-content-center text-center"
+                    disabled="disabled" style="height:80%;" />
+            </div>
+        </section>
+        <section class="mt-3">
+            <div class="mb-3 row align-items-center justify-content-center">
+                <div class="card w-50 text-center">
+                    <h5 class="card-header">Customize your password</h5>
+                    <div class="card-body">
+                        <div class="row align-items-center justify-content-center">
+                            <label for="text" style="font-size: 20px;">Password length</label><br />
+                        </div>
+                        <div class="row align-items-center justify-content-center mb-3">
+                            <input type="text" id="sliderValue" style="width: 30px;" />
+                            <input id="slider" name="length" type="range" min="0" max="50" value="0" step="1"
+                                style="width: 70%;" />
+                        </div>
+                        <div class=" row align-items-center justify-content-center ">
+                            <div class=" col-md-2">
+                                <input id="uppercase" type="checkbox" name="uppercase" />
+                                <label for="uppercase">
+                                    Uppercase
+                                </label>
+                            </div>
+                            <div class="col-md-2">
+                                <input id="lowercase" type="checkbox" name="lowercase">
+                                <label for="lowercase">
+                                    Lowercase
+                                </label>
+                            </div>
+                            <div class="col-md-2">
+                                <input id="numbers" type="checkbox" name="numbers">
+                                <label for="numbers">
+                                    Numbers
+                                </label>
+                            </div>
+                            <div class="col-md-2">
+                                <input id="symbols" type="checkbox" name="symbols">
+                                <label for="symbols">
+                                    Symbols
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+        <section>
+            <div class="mb-3 d-flex justify-content-center">
+                <button id="copy" class="mr-3 btn btn-primary">Copy to clipboard</button>
+                <button id="generate" class="btn btn-primary">Generate</button>
+            </div>
+        </section>
+    </main>
+    <script>
+        $("#slider").on("change focus", function (e) {
+            $("#sliderValue").val(e.target.value);
+            generate()
+        });
+        $("#sliderValue").on("change focus keyup", function (e) {
+            if (e.target.value > 50) {
+                $("#sliderValue").val(50)
+            }
+            $("#slider").val(e.target.value);
+            generate()
+        });
+
+        $("#copy").click((e) => {
+            copy2clip(e.target, $("#generatedText").val())
+        })
+        $("#generate").click((e) => {
+            generate()
+
+        })
+
+        $("#uppercase").on("change", (e) => {
+            generate()
+
+        })
+        $("#lowercase").on("change", (e) => {
+            generate()
+        })
+        $("#numbers").on("change", (e) => {
+            generate()
+        })
+        $("#symbols").on("change", (e) => {
+            generate()
+        })
+
+        function generate() {
+            let uppercase = $("#uppercase")[0].checked;
+            let lowercase = $("#lowercase")[0].checked;
+            let numbers = $("#numbers")[0].checked;
+            let symbols = $("#symbols")[0].checked;
+            let length = $("#slider").val()
+
+            let data = {
+                uppercase: uppercase,
+                lowercase: lowercase,
+                numbers: numbers,
+                symbols: symbols,
+                length: length,
+            }
+
+            $.post(`/generate?uppercase=${data.uppercase}&lowercase=${data.lowercase}&numbers=${data.numbers}&symbols=${data.symbols}&length=${data.length}`,
+                function (
+                    result) {
+                    $("#generatedText").val(result);
+                });
+        }
+
+        function copy2clip(e, text) {
+            let tmp = document.createElement('input')
+            let buttonText = e.textContent;
+            tmp.value = text
+            $("body").append(tmp);
+            tmp.select()
+            // tmp.setSelectionRange(0, 99999); /*For mobile devices*/
+
+            /* Copy the text inside the text field */
+            document.execCommand("copy");
+            tmp.remove()
+
+            /* Notify the copied text */
+            e.textContent = "Copied!";
+            setTimeout(() => {
+                e.textContent = buttonText
+            }, 1000)
+        }
+    </script>
+</body>
+
+</html>
